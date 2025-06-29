@@ -22,7 +22,7 @@ public class UrlShortenerController {
         return ResponseEntity.ok(urlShortenResponse);
     }
 
-    @GetMapping
+    @GetMapping("/{shortUrl}")
     ResponseEntity<?> fetchURL(@RequestParam @NotNull String shortUrl){
          UrlShortenResponse response = urlShortenerService.getURL(shortUrl);
          if(response==null){

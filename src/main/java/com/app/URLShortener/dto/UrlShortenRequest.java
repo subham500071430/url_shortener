@@ -6,14 +6,11 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class UrlShortenRequest {
 
        @URL(message = "Invalid URL")
        private String inputUrl;
 
-       public String getInputUrl() {
-              return inputUrl;
-       }
 }

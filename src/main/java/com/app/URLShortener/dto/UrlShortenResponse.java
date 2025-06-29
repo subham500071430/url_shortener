@@ -6,11 +6,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class UrlShortenResponse {
 
        private String outputUrl;
-
-       public UrlShortenResponse(String outputUrl){
-              this.outputUrl = outputUrl;
-       }
 }

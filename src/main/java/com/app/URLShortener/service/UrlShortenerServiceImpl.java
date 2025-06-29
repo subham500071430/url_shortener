@@ -51,9 +51,10 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     @Override
     public UrlShortenResponse getURL(String shortUrl) {
 
-           String longUrl = redisLookup.getLongUrl(shortUrl);
+           String fullShortUrl = "http://localhost:8080/" + shortUrl;
+           String longUrl = redisLookup.getLongUrl(fullShortUrl);
 
-           if(longUrl != null || longUrl.isEmpty()){
+           if(longUrl == null || longUrl.isEmpty()){
                return null;
            }
 

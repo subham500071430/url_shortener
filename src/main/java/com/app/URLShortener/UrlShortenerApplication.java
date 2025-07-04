@@ -10,8 +10,6 @@ public class UrlShortenerApplication {
 
 	public static void main(String[] args) throws Exception{
 		SpringApplication.run(UrlShortenerApplication.class, args);
-		Logger logger = new Logger("C:/project/URLShortener/src/main/java/com/app/URLShortener/demo.txt");
-		logger.log(LogLevel.ERROR,"First Log");
 	}
 }
 

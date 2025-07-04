@@ -23,12 +23,12 @@ public class UrlShortenerController {
     }
 
     @GetMapping("/{shortUrl}")
-    ResponseEntity<?> fetchURL(@RequestParam @NotNull String shortUrl){
-         UrlShortenResponse response = urlShortenerService.getURL(shortUrl);
-         if(response==null){
-             return ResponseEntity.status(400).build();
-         }else{
-             return ResponseEntity.ok(response);
-         }
+    ResponseEntity<?> fetchURL(@RequestParam @NotNull String shortUrl) {
+        UrlShortenResponse response = urlShortenerService.getURL(shortUrl);
+        if (response == null) {
+            return ResponseEntity.status(400).build();
+        } else {
+            return ResponseEntity.ok(response);
+        }
     }
 }

@@ -34,7 +34,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         }
 
         do {
-            shortCode = prefixUrl+generator.generate(inputUrl);
+            shortCode = prefixUrl + generator.generate(inputUrl);
         } while (redisLookup.isCodeUsed(shortCode));
 
 
@@ -51,14 +51,14 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     @Override
     public UrlShortenResponse getURL(String shortUrl) {
 
-           String fullShortUrl = "http://localhost:8080/" + shortUrl;
-           String longUrl = redisLookup.getLongUrl(fullShortUrl);
+        String fullShortUrl = "http://localhost:8080/" + shortUrl;
+        String longUrl = redisLookup.getLongUrl(fullShortUrl);
 
-           if(longUrl == null || longUrl.isEmpty()){
-               return null;
-           }
+        if (longUrl == null || longUrl.isEmpty()) {
+            return null;
+        }
 
-           return new UrlShortenResponse(longUrl);
+        return new UrlShortenResponse(longUrl);
 
     }
 }

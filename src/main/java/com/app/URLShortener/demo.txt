@@ -1,0 +1,8 @@
+{
+"target": "db",
+"loglevel": "debug",
+"endpoint":  "localhost",
+"port": "3306",
+"timestampformat":  "dd-mm-yy"
+}
+

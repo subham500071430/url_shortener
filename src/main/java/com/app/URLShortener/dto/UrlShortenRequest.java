@@ -11,6 +11,6 @@ import org.hibernate.validator.constraints.URL;
 public class UrlShortenRequest {
 
        @URL(message = "Invalid URL")
-       private String inputUrl;
+       private String longUrl;
 
 }

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class UrlMapper {
 
     @Id
-    String inputUrl;
-    @Column
-    String outputUrl;
+    String shortUrl;
+    @Column(unique = true, nullable = false)
+    String longUrl;
 }

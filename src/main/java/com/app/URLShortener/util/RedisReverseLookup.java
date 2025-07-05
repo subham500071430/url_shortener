@@ -1,14 +1,12 @@
 package com.app.URLShortener.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
 @Component
-@ConditionalOnProperty(prefix = "dbconn",value = "value",havingValue = "redis",matchIfMissing = false)
 public class RedisReverseLookup {
 
     private static final String USED_CODES_KEY = "used_codes";
@@ -25,7 +23,7 @@ public class RedisReverseLookup {
     }
 
     public void cacheLongUrl(String longUrl, String code) {
-        redisTemplate.opsForValue().set("reverse url:" + longUrl , code, 1, TimeUnit.DAYS);
+        redisTemplate.opsForValue().set("reverse url:" + longUrl, code, 1, TimeUnit.DAYS);
     }
 
     public String getShortCode(String longUrl) {

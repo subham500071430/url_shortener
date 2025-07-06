@@ -21,6 +21,7 @@ public class RedirectController {
     @Async
     @GetMapping("/{shortUrl}")
     CompletableFuture<ResponseEntity<?>> fetchURL(@PathVariable @NotNull String shortUrl) {
+        System.out.println(5/0);
         UrlShortenResponse response = urlShortenerService.getURL(shortUrl);
         ResponseEntity<?> responseEntity;
         if (response == null) {

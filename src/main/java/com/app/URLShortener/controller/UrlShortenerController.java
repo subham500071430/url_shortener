@@ -7,7 +7,10 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("bit.ly")
@@ -20,15 +23,5 @@ public class UrlShortenerController {
     ResponseEntity<?> shortenURL(@Valid @RequestBody UrlShortenRequest request) {
         UrlShortenResponse urlShortenResponse = urlShortenerService.shortenURL(request);
         return ResponseEntity.ok(urlShortenResponse);
-    }
-
-    @GetMapping("/{shortUrl}")
-    ResponseEntity<?> fetchURL(@RequestParam @NotNull String shortUrl) {
-        UrlShortenResponse response = urlShortenerService.getURL(shortUrl);
-        if (response == null) {
-            return ResponseEntity.status(400).build();
-        } else {
-            return ResponseEntity.ok(response);
-        }
     }
 }

@@ -5,6 +5,7 @@ import com.app.URLShortener.dto.UrlShortenResponse;
 import org.springframework.stereotype.Service;
 
 import java.net.http.HttpHeaders;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public interface UrlShortenerService {

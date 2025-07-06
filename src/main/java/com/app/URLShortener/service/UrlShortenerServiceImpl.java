@@ -11,10 +11,12 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.*;
 
 @Slf4j
 @Service
@@ -61,8 +63,9 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         redisReverseLookup.cacheLongUrl(longUrl, generatedShortUrl);
         redisReverseLookup.markLongUrlAsUsed(longUrl);
 
-        return new UrlShortenResponse(generatedShortUrl);
+        log.info("short url :" + generatedShortUrl);
 
+        return new UrlShortenResponse(generatedShortUrl);
     }
 
     @Override

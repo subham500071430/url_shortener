@@ -1,6 +1,7 @@
 package com.app.URLShortener.util;
 
 import org.apache.commons.text.RandomStringGenerator;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component

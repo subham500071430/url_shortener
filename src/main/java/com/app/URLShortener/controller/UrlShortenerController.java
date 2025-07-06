@@ -21,8 +21,8 @@ public class UrlShortenerController {
     @Autowired
     UrlShortenerService urlShortenerService;
 
-    @PostMapping(path = "/shorten/url")
     @Async
+    @PostMapping(path = "/shorten/url")
     CompletableFuture<ResponseEntity<?>> shortenURL(@Valid @RequestBody UrlShortenRequest request) {
         UrlShortenResponse urlShortenResponse = urlShortenerService.shortenURL(request);
         return CompletableFuture.completedFuture(ResponseEntity.ok(urlShortenResponse));

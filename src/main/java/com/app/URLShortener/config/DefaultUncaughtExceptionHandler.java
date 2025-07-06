@@ -15,6 +15,6 @@ public class DefaultUncaughtExceptionHandler implements AsyncUncaughtExceptionHa
     @Override
     public void handleUncaughtException(Throwable ex, Method method, Object... params) {
 
-           log.error("Exception Occurred in Async Method: ", params);
+           log.error("Exception Occurred in Async Method: ", params); // works for method which returns void
     }
 }

@@ -29,8 +29,8 @@ public class AppConfig implements AsyncConfigurer {
         return executor;
     }
 
-    public AsyncUncaughtExceptionHandler getExceptionHandler() {
-
-           return exceptionHandler;
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+           return this.exceptionHandler;
     }
 }

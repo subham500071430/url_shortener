@@ -14,7 +14,7 @@ public class AppConfig implements AsyncConfigurer {
     @Override
     public Executor getAsyncExecutor() {
 
-        return new ThreadPoolExecutor(4, 6, 1, TimeUnit.HOURS,
-                new ArrayBlockingQueue<>(6), new CustomThreadFactory());
+        return new ThreadPoolExecutor(8, 8, 1, TimeUnit.HOURS,
+                new ArrayBlockingQueue<>(100), new CustomThreadFactory());
     }
 }

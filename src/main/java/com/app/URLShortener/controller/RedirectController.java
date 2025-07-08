@@ -1,5 +1,6 @@
 package com.app.URLShortener.controller;
 
+import com.app.URLShortener.config.URLNotFoundException;
 import com.app.URLShortener.dto.UrlShortenResponse;
 import com.app.URLShortener.service.UrlShortenerService;
 import jakarta.validation.constraints.NotNull;
@@ -23,14 +24,14 @@ public class RedirectController {
     CompletableFuture<ResponseEntity<?>> fetchURL(@PathVariable @NotNull String shortUrl) {
 
         UrlShortenResponse response = urlShortenerService.getURL(shortUrl);
-        ResponseEntity<?> responseEntity;
-        if (response == null) {
-            responseEntity =  ResponseEntity.status(400).build();
-        } else {
-            responseEntity = ResponseEntity.status(302).header(
-                    "Location", response.getOutputUrl()
-            ).build();
+
+        if (response == null || response.getOutputUrl() == null) {
+            throw new URLNotFoundException();
         }
+
+        ResponseEntity<?> responseEntity = ResponseEntity.status(302).header(
+                "Location", response.getOutputUrl()
+        ).build();
 
         return CompletableFuture.completedFuture(responseEntity);
     }

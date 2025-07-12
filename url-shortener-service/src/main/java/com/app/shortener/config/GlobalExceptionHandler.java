@@ -3,6 +3,7 @@ package com.app.shortener.config;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,13 +25,13 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(URLNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(Exception ex, HttpServletRequest httpRequest) {
+    public ProblemDetail handleResourceNotFoundException(Exception ex, HttpServletRequest httpRequest) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setTimestamp(LocalDateTime.now());
         errorResponse.setHttpStatusCode(HttpStatusCode.valueOf(404));
         errorResponse.setMessage(ex.getMessage());
         errorResponse.setPath(httpRequest.getServletPath());
-        return ResponseEntity.status(404).body(errorResponse);
+        return ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(404),ex.getMessage());
     }
 
 }

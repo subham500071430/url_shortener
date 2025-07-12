@@ -74,7 +74,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     @Override
     public UrlShortenResponse getURL(String shortUrl) {
 
-        String responseEntity = restTemplate.getForObject("http://user-service/user/getAllUsers", String.class);
+        //String responseEntity = restTemplate.getForObject("http://user-service/user/getAllUsers", String.class);
 
         String fullShortUrl = "http://localhost:8080/" + shortUrl;
         String longUrl = null;

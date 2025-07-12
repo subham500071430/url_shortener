@@ -29,7 +29,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     private ModelMapper modelMapper;
     @Autowired
     private URLGenerator generator;
-    @Autowired(required = false)
+    @Autowired
     private RedisLookup redisLookup;
     @Autowired
     private RedisReverseLookup redisReverseLookup;
@@ -73,7 +73,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         return new UrlShortenResponse(generatedShortUrl);
     }
 
-    @CircuitBreaker(name = "userService" , fallbackMethod = "getUserFallback")
+
     @Override
     public UrlShortenResponse getURL(String shortUrl) {
 
@@ -90,9 +90,5 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 
         return new UrlShortenResponse(longUrl);
 
-    }
-
-    public UrlShortenResponse getUserFallback(String shortUrl, Throwable t) {
-        return new UrlShortenResponse("https://www.infosys.com/careers.html");
     }
 }

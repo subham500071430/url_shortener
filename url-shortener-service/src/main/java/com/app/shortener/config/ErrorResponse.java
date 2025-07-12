@@ -16,7 +16,6 @@ public class ErrorResponse {
 
       LocalDateTime timestamp;
       HttpStatusCode httpStatusCode;
-      HttpServerErrorException error;
       String message;
-      URI path;
+      String path;
 }

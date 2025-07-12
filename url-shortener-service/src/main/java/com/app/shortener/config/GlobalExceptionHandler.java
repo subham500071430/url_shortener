@@ -1,5 +1,6 @@
 package com.app.shortener.config;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +14,23 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception ex, HttpRequest httpRequest) {
+    public ResponseEntity<ErrorResponse> handleException(Exception ex, HttpServletRequest httpRequest) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setTimestamp(LocalDateTime.now());
-        errorResponse.setError(new HttpServerErrorException(HttpStatusCode.valueOf(500)));
+        errorResponse.setHttpStatusCode(HttpStatusCode.valueOf(500));
         errorResponse.setMessage(ex.getMessage());
-        errorResponse.setPath(httpRequest.getURI());
+        errorResponse.setPath(httpRequest.getServletPath());
         return ResponseEntity.badRequest().body(errorResponse);
+    }
+
+    @ExceptionHandler(URLNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(Exception ex, HttpServletRequest httpRequest) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setTimestamp(LocalDateTime.now());
+        errorResponse.setHttpStatusCode(HttpStatusCode.valueOf(404));
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setPath(httpRequest.getServletPath());
+        return ResponseEntity.status(404).body(errorResponse);
     }
 
 }

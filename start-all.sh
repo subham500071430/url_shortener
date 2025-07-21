@@ -18,7 +18,7 @@ EUREKA_PID=$!
 
 # Wait for Eureka to be ready
 echo "Waiting for Eureka Server to be ready..."
-until curl -f http://localhost:8761/actuator/health >/dev/null 2>&1; do
+until curl -f http://localhost:8761/ >/dev/null 2>&1; do
     echo "Waiting for Eureka Server..."
     sleep 10
 done

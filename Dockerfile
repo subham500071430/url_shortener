@@ -33,19 +33,16 @@ COPY eureka-server/pom.xml eureka-server/
 COPY user-service/pom.xml user-service/
 COPY url-shortener-service/pom.xml url-shortener-service/
 
-# Download dependencies
-RUN chmod +x mvnw && ./mvnw dependency:go-offline
-
 # Copy source code
 COPY eureka-server/src eureka-server/src
 COPY user-service/src user-service/src
 COPY url-shortener-service/src url-shortener-service/src
 
 # Build all services
-RUN ./mvnw clean package -DskipTests
+RUN chmod +x mvnw && ./mvnw clean package -DskipTests
 
 # Final runtime stage
-FROM openjdk:17-jre-slim
+FROM eclipse-temurin:17-jre-jammy
 
 WORKDIR /app
 
@@ -75,9 +72,9 @@ EXPOSE 80 8080 8081 8761
 # Health check for the main application
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
   CMD curl -f http://localhost:80/ && \
-      curl -f http://localhost:8761/actuator/health && \
-      curl -f http://localhost:8080/actuator/health && \
-      curl -f http://localhost:8081/actuator/health || exit 1
+      curl -f http://localhost:8761/ && \
+      curl -f http://localhost:8080/ && \
+      curl -f http://localhost:8081/ || exit 1
 
 # Start all services
 CMD ["./start-all.sh"]

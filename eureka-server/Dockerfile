@@ -13,18 +13,14 @@ COPY eureka-server/pom.xml eureka-server/
 COPY user-service/pom.xml user-service/
 COPY url-shortener-service/pom.xml url-shortener-service/
 
-# Download dependencies for better caching
-RUN chmod +x mvnw && ./mvnw dependency:go-offline -N
-RUN ./mvnw dependency:go-offline -pl eureka-server
-
 # Copy source code
 COPY eureka-server/src eureka-server/src
 
 # Build the application
-RUN ./mvnw clean package -pl eureka-server -DskipTests
+RUN chmod +x mvnw && ./mvnw clean package -pl eureka-server -DskipTests
 
 # Production stage
-FROM openjdk:17-jre-slim
+FROM eclipse-temurin:17-jre-jammy
 
 WORKDIR /app
 
@@ -39,7 +35,7 @@ EXPOSE 8761
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-  CMD curl -f http://localhost:8761/actuator/health || exit 1
+  CMD curl -f http://localhost:8761/ || exit 1
 
 # Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -27,4 +27,7 @@ public class UserController {
        public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
               return ResponseEntity.ok(userService.loginUser(loginRequest));
        }
+
+       // to-do
+       // add oath2 authentication
 }

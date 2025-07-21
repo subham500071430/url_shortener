@@ -27,7 +27,9 @@ WORKDIR /app
 # Install curl for health checks
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
-# Copy the built JAR file
+# Copy the executable fat JAR file built by spring-boot-maven-plugin
+# This JAR contains all dependencies and has Main-Class: org.springframework.boot.loader.JarLauncher
+# The plugin creates a single executable JAR that can be run with 'java -jar'
 COPY --from=build /app/eureka-server/target/eureka-server-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the port

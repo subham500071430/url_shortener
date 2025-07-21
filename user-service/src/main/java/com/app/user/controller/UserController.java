@@ -27,9 +27,4 @@ public class UserController {
        public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
               return ResponseEntity.ok(userService.loginUser(loginRequest));
        }
-
-       @GetMapping(value = "/getAllUsers")
-       public ResponseEntity<?> getAllUsers(){
-              return ResponseEntity.ok("subham,prakash,aman");
-       }
 }

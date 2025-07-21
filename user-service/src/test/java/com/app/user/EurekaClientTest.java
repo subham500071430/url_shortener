@@ -10,13 +10,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestPropertySource(properties = {
-    "spring.datasource.url=jdbc:h2:mem:testdb",
+    "spring.datasource.url=jdbc:h2:mem:eurekatest;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE",
     "spring.datasource.driver-class-name=org.h2.Driver",
     "spring.jpa.hibernate.ddl-auto=create-drop",
+    "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect",
     "eureka.client.enabled=true",
     "eureka.client.register-with-eureka=true", 
     "eureka.client.fetch-registry=true",
-    "eureka.client.service-url.defaultZone=http://localhost:8761/eureka/"
+    "eureka.client.service-url.defaultZone=http://localhost:8761/eureka/",
+    "spring.cloud.discovery.enabled=true"
 })
 public class EurekaClientTest {
 

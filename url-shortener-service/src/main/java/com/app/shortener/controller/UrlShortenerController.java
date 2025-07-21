@@ -3,7 +3,7 @@ package com.app.shortener.controller;
 import com.app.shortener.dto.UrlShortenRequest;
 import com.app.shortener.dto.UrlShortenResponse;
 import com.app.shortener.service.UrlShortenerService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;

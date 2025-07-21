@@ -7,7 +7,7 @@ import com.app.shortener.repository.UrlRepository;
 import com.app.shortener.util.RedisLookup;
 import com.app.shortener.util.RedisReverseLookup;
 import com.app.shortener.util.URLGenerator;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

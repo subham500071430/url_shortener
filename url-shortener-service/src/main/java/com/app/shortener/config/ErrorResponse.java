@@ -3,7 +3,7 @@ package com.app.shortener.config;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpServerErrorException;
 
 import java.net.URI;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class ErrorResponse {
 
       LocalDateTime timestamp;
-      HttpStatusCode httpStatusCode;
+      HttpStatus httpStatus;
       String message;
       String path;
 }

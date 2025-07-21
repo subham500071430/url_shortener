@@ -3,7 +3,7 @@ package com.app.shortener.controller;
 import com.app.shortener.config.URLNotFoundException;
 import com.app.shortener.dto.UrlShortenResponse;
 import com.app.shortener.service.UrlShortenerService;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;

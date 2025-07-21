@@ -32,13 +32,15 @@ url_shortener/
 
 ### Prerequisites
 
-- Java 17+
+- Java 11+
 - Maven 3.6+
 - Node.js 16+
 - MySQL
 - Redis
 
 ### Backend Setup
+
+**Important:** Start services in the following order to ensure proper service discovery:
 
 1. **Start MySQL and Redis services**
 
@@ -47,23 +49,30 @@ url_shortener/
    mvn clean install
    ```
 
-3. **Start Eureka Server:**
+3. **Start Eureka Server first:**
    ```bash
    cd eureka-server
    mvn spring-boot:run
    ```
+   
+   Wait for Eureka to fully start (you should see "Started EurekaServerApplication" in the logs)
+   Access Eureka dashboard at: `http://localhost:8761`
 
 4. **Start URL Shortener Service:**
    ```bash
    cd url-shortener-service
    mvn spring-boot:run
    ```
+   
+   The service will register with Eureka and be available on port 8080
 
 5. **Start User Service (optional):**
    ```bash
    cd user-service
    mvn spring-boot:run
    ```
+   
+   The service will register with Eureka and be available on port 8081
 
 ### Frontend Setup
 
@@ -137,13 +146,13 @@ curl -X POST http://localhost:8080/bit.ly/shorten/url \
 ## Technology Stack
 
 ### Backend
-- **Spring Boot 3.3.3** - Application framework
-- **Spring Cloud** - Microservices toolkit
+- **Spring Boot 2.7.18** - Application framework
+- **Spring Cloud 2021.0.9** - Microservices toolkit
 - **Netflix Eureka** - Service discovery
 - **MySQL** - Database
 - **Redis** - Caching
 - **Maven** - Build tool
-- **Java 17** - Programming language
+- **Java 11** - Programming language
 
 ### Frontend
 - **React 19** - UI library
@@ -205,6 +214,35 @@ spring.redis.host=localhost
 spring.redis.port=6379
 ```
 
+### Eureka Service Discovery Configuration
+
+The project uses Netflix Eureka for service discovery. Each microservice registers with the Eureka server.
+
+#### Eureka Server (Port 8761)
+
+Configuration in `eureka-server/src/main/resources/application.properties`:
+```properties
+spring.application.name=eureka-server
+server.port=8761
+
+# Prevents the server from registering itself as a client
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+```
+
+#### Client Services Configuration
+
+Both user-service and url-shortener-service are configured as Eureka clients:
+
+```properties
+# Service registration with Eureka
+eureka.client.register-with-eureka=true
+eureka.client.fetch-registry=true
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka/
+```
+
+The services will automatically register with Eureka when started. You can view registered services at: `http://localhost:8761`
+
 ### Frontend Configuration
 
 Update API base URL in `frontend/src/services/api.ts`:
@@ -249,7 +287,7 @@ This project is open source and available under the [MIT License](LICENSE).
    - Verify database exists
 
 3. **Build failures:**
-   - Check Java version (17+)
+   - Check Java version (11+)
    - Verify Maven configuration
    - Clear Maven cache: `mvn clean install -U`
 

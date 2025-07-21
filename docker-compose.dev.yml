@@ -1,0 +1,50 @@
+# Development override for docker-compose
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+version: '3.8'
+
+services:
+  # Development database with port exposed
+  mysql:
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_dev_data:/var/lib/mysql
+
+  # Development Redis with port exposed  
+  redis:
+    ports:
+      - "6379:6379"
+
+  # Enable debug mode for services
+  eureka-server:
+    environment:
+      - JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:5005
+    ports:
+      - "5005:5005"
+
+  user-service:
+    environment:
+      - JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:5006
+      - SPRING_PROFILES_ACTIVE=dev
+    ports:
+      - "5006:5006"
+
+  url-shortener-service:
+    environment:
+      - JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:5007
+      - SPRING_PROFILES_ACTIVE=dev
+    ports:
+      - "5007:5007"
+
+  # Frontend with development server
+  frontend:
+    build:
+      target: build
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+    command: npm run dev
+
+volumes:
+  mysql_dev_data:

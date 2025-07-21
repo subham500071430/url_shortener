@@ -79,6 +79,12 @@
 				<scope>runtime</scope>
 			</dependency>
 			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>42.7.3</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
 				<groupId>org.hibernate.validator</groupId>
 				<artifactId>hibernate-validator</artifactId>
 				<version>8.0.1.Final</version> <!-- match your Spring Boot version -->

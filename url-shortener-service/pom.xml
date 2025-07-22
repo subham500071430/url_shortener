@@ -80,10 +80,16 @@
 
     <build>
         <plugins>
-            <!-- Spring Boot Maven Plugin - creates executable JAR with embedded dependencies -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <artifactId>spring-boot-maven-plugin</artifactId><!-- or your Spring Boot version -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

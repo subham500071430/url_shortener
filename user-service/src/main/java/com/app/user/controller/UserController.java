@@ -1,6 +1,7 @@
 package com.app.user.controller;
 
 import com.app.user.dto.LoginRequest;
+import com.app.user.dto.SignupRequest;
 import com.app.user.entity.User;
 import com.app.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -28,6 +30,11 @@ public class UserController {
               return ResponseEntity.ok(userService.loginUser(loginRequest));
        }
 
+       @PostMapping(value = "/signup")
+       public ResponseEntity<?> signUp(@RequestBody SignupRequest signupRequest){
+              return ResponseEntity.ok(userService.signupUser(signupRequest));
+       }
+
        // to-do
-       // add oath2 authentication
+       // add jwt authentication
 }

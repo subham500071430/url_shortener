@@ -1,52 +1,64 @@
 package com.app.user.service;
 
+import com.app.user.dto.JwtToken;
 import com.app.user.dto.LoginRequest;
-import com.app.user.dto.LoginResponse;
 import com.app.user.dto.SignupRequest;
-import com.app.user.dto.SignupResponse;
 import com.app.user.entity.User;
 import com.app.user.repository.UserRepository;
+import com.app.user.util.JwtUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
-       UserRepository userRepository;
-       ModelMapper modelMapper;
+    UserRepository userRepository;
+    ModelMapper modelMapper;
+    JwtUtil jwtUtil;
 
-       @Autowired
-       UserService(UserRepository userRepository,ModelMapper modelMapper){
-           this.userRepository = userRepository;
-           this.modelMapper = modelMapper;
-       }
+    @Autowired
+    UserService(UserRepository userRepository, ModelMapper modelMapper, JwtUtil jwtUtil) {
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
+        this.jwtUtil = jwtUtil;
+    }
 
-       public LoginResponse loginUser(LoginRequest loginRequest){
-              User user = modelMapper.map(loginRequest , User.class);
-              Optional<User> result = userRepository.findById(user.getEmail());
+    @Transactional
+    public JwtToken loginUser(LoginRequest loginRequest) {
 
-              if(result.isEmpty() || ! result.get().getPassword().equals(user.getPassword())){
-                  return new LoginResponse("Invalid Login Details");
-              }
+        User user = modelMapper.map(loginRequest, User.class);
+        Optional<User> result = userRepository.findById(user.getEmail());
 
-              return new LoginResponse("User details validated");
-       }
+        if (result.isEmpty() || !result.get().getPassword().equals(user.getPassword())) {
+            return null;
+        }
 
-       public SignupResponse signupUser(SignupRequest signupRequest){
+        return new JwtToken(jwtUtil.generateToken(loginRequest.getEmail()));
+    }
 
-           User user = modelMapper.map(signupRequest , User.class);
+    @Transactional
+    public JwtToken signupUser(SignupRequest signupRequest) {
 
-           if(userRepository.findById(user.getEmail()).isPresent()) {
-               return new SignupResponse("email id taken");
-           }
+        User user = modelMapper.map(signupRequest, User.class);
 
-           userRepository.save(user);
+        if (userRepository.findById(user.getEmail()).isPresent()) {
+            return null;
+        }
 
-           return new SignupResponse("signup successful");
-       }
+        userRepository.save(user);
+        return new JwtToken(jwtUtil.generateToken(signupRequest.getEmail()));
+    }
 
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return modelMapper.map(userRepository.findById(username).get(), UserDetails.class);
+    }
 }

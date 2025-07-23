@@ -19,9 +19,8 @@ public class RedirectController {
     @Autowired
     UrlShortenerService urlShortenerService;
 
-    @Async
     @GetMapping("/{shortUrl}")
-    CompletableFuture<ResponseEntity<?>> fetchURL(@PathVariable @NotNull String shortUrl) {
+    ResponseEntity<?> fetchURL(@PathVariable @NotNull String shortUrl) {
 
         UrlShortenResponse response = urlShortenerService.getURL(shortUrl);
 
@@ -33,6 +32,6 @@ public class RedirectController {
                 "Location", response.getOutputUrl()
         ).build();
 
-        return CompletableFuture.completedFuture(responseEntity);
+        return responseEntity;
     }
 }

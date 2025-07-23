@@ -17,36 +17,17 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-public class AppConfig implements AsyncConfigurer, WebMvcConfigurer {
+public class AppConfig implements WebMvcConfigurer {
 
     private Executor executor;
-
-    @Autowired
-    private DefaultUncaughtExceptionHandler exceptionHandler;
-
-    @Override
-    public Executor getAsyncExecutor() {
-
-        if(executor == null){
-            executor = new ThreadPoolExecutor(8, 8, 1, TimeUnit.HOURS,
-                    new ArrayBlockingQueue<>(100), new CustomThreadFactory());
-        }
-
-        return executor;
-    }
-
-    @Override
-    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-           return this.exceptionHandler;
-    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173", "http://localhost:3000")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedOrigins("*")
+                .allowedMethods("*")
                 .allowedHeaders("*")
-                .allowCredentials(true);
+                .allowCredentials(false);
     }
 
     @Bean

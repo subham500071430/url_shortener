@@ -10,9 +10,13 @@ services:
       - mysql_dev_data:/var/lib/mysql
 
   # Development Redis with port exposed  
-  redis:
+  redis1:
     ports:
       - "6379:6379"
+
+  redis2:
+    ports:
+      - "6380:6380"
 
   # Enable debug mode for services
   eureka-server:

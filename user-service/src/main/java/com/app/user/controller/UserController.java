@@ -1,12 +1,15 @@
 package com.app.user.controller;
 
-import com.app.user.dto.*;
-import com.app.user.service.UserService;
+import com.app.user.dto.LoginRequest;
+import com.app.user.dto.LoginResponse;
+import com.app.user.dto.SignupRequest;
+import com.app.user.dto.SignupResponse;
+import com.app.user.entity.RefreshToken;
+import com.app.user.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,31 +19,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("user")
 public class UserController {
 
-    UserService userService;
+    AuthService authService;
 
     @Autowired
-    UserController(UserService userService) {
-        this.userService = userService;
+    UserController(AuthService authService) {
+        this.authService = authService;
     }
 
-    @GetMapping(value = "/login")
+    @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        JwtToken token = userService.loginUser(loginRequest);
-        if (token == null) {
-            return ResponseEntity.badRequest().body(new LoginResponse("user id/pass is incorrect"));
-        }
-        return ResponseEntity.ok(token);
+
+        LoginResponse response = authService.loginUser(loginRequest);
+
+        return response == null ?
+                ResponseEntity.status(401).body(new LoginResponse(null, null, 0)) :
+                ResponseEntity.ok(response);
     }
 
     @PostMapping(value = "/signup")
     public ResponseEntity<?> signUp(@RequestBody SignupRequest signupRequest) {
-        JwtToken token = userService.signupUser(signupRequest);
-        if (token == null) {
-            return ResponseEntity.badRequest().body(new SignupResponse("user already taken"));
-        }
-        return ResponseEntity.ok(token);
+
+        SignupResponse response = authService.signupUser(signupRequest);
+
+        return response == null ?
+                ResponseEntity.status(401).body(new LoginResponse(null, null, 0)) :
+                ResponseEntity.ok(response);
+    }
+
+    @PostMapping(value = "/refresh")
+    public ResponseEntity<?> refreshToken(@RequestBody RefreshToken refreshToken) {
+
+        boolean isValid = authService.validateRefreshToken(refreshToken.getToken(), refreshToken.getEmail());
+
+        if (!isValid) return ResponseEntity.status(401).body(null);
+
+        return ResponseEntity.ok().body(authService.generateAccessToken(refreshToken.getEmail(), "user"));
     }
 
     // to-do
-    // add jwt authentication
+    // post/logout
 }

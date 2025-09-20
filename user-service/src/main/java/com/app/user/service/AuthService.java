@@ -5,7 +5,7 @@ import com.app.user.dto.LoginResponse;
 import com.app.user.dto.SignupRequest;
 import com.app.user.dto.SignupResponse;
 import com.app.user.entity.User;
-import com.app.user.repository.UserRepository;
+import com.app.user.repository.AuthRepository;
 import com.app.user.util.JwtUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class AuthService {
 
-    UserRepository userRepository;
+    AuthRepository authRepository;
     ModelMapper modelMapper;
     JwtUtil jwtUtil;
 
@@ -27,8 +27,8 @@ public class AuthService {
     StringRedisTemplate redisTemplate;
 
     @Autowired
-    public AuthService(UserRepository userRepository, ModelMapper modelMapper, JwtUtil jwtUtil) {
-        this.userRepository = userRepository;
+    public AuthService(AuthRepository authRepository, ModelMapper modelMapper, JwtUtil jwtUtil) {
+        this.authRepository = authRepository;
         this.modelMapper = modelMapper;
         this.jwtUtil = jwtUtil;
     }
@@ -37,14 +37,14 @@ public class AuthService {
     public LoginResponse loginUser(LoginRequest loginRequest) {
 
         User user = modelMapper.map(loginRequest, User.class);
-        Optional<User> result = userRepository.findById(user.getEmail());
+        Optional<User> result = authRepository.findById(user.getEmail());
 
         if (result.isEmpty() || !result.get().getPassword().equals(user.getPassword())) {
             return null;
         }
 
         return new LoginResponse(generateAccessToken(user.getEmail(), "user"),
-                generateRefreshToken(user.getEmail(), "user"), 864000000);
+                generateRefreshToken(user.getEmail(), "user"), 36000);
     }
 
     @Transactional
@@ -52,14 +52,14 @@ public class AuthService {
 
         User user = modelMapper.map(signupRequest, User.class);
 
-        if (userRepository.findById(user.getEmail()).isPresent()) {
+        if (authRepository.findById(user.getEmail()).isPresent()) {
             return null;
         }
 
-        userRepository.save(user);
+        authRepository.save(user);
 
         return new SignupResponse(generateAccessToken(user.getEmail(), "user"),
-                generateRefreshToken(user.getEmail(), "user"), 864000000);
+                generateRefreshToken(user.getEmail(), "user"), 8640000);
     }
 
     public boolean validateRefreshToken(String refreshToken, String userId) {

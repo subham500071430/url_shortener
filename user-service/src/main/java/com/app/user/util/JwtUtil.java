@@ -16,7 +16,7 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    public String generateToken(String username, String role , int exp) {
+    public String  generateToken(String username, String role , int exp) {
 
         try {
 
@@ -45,7 +45,6 @@ public class JwtUtil {
 
         } catch (Exception e) {
 
-            e.printStackTrace();
             return null;
         }
 
@@ -71,7 +70,7 @@ public class JwtUtil {
 
         } catch (Exception e) {
 
-            e.printStackTrace();
+            return false;
         }
     }
 }

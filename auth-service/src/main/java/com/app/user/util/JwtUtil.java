@@ -33,7 +33,6 @@ public class JwtUtil {
 
             Map<String, Object> claims = new HashMap<>();
             claims.put("role", role);
-            claims.put("kid", "key1");
 
             KeyStore keyStore = KeyStore.getInstance("jks");
 
@@ -52,6 +51,7 @@ public class JwtUtil {
                     .setSubject(username)
                     .setIssuer("url-shortener-app")
                     .setClaims(claims)
+                    .setHeaderParam("kid", "1")
                     .setIssuedAt(new Date(System.currentTimeMillis()))
                     .setExpiration(new Date(System.currentTimeMillis() + exp))
                     .signWith(privateKey)

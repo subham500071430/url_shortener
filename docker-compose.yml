@@ -60,11 +60,11 @@ services:
       - app-network
 
   # Backend Services
-  user-service:
+  auth-service:
     build:
       context: .
-      dockerfile: user-service/Dockerfile
-    container_name: user-service
+      dockerfile: auth-service/Dockerfile
+    container_name: auth-service
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/user
       SPRING_DATASOURCE_USERNAME: root
@@ -126,7 +126,7 @@ services:
       - "80:80"
     depends_on:
       - url-shortener-service
-      - user-service
+      - auth-service
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:80/"]
       interval: 30s

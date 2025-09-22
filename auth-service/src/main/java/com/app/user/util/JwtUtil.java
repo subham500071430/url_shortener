@@ -27,7 +27,7 @@ public class JwtUtil {
             KeyStore keyStore = KeyStore.getInstance("jks");
 
             keyStore.load(new FileInputStream("C:/Users/subha/IdeaProjects/url_shortener" +
-                            "/user-service/src/main/resources/mykeystore.jks"),
+                            "/auth-service/src/main/resources/mykeystore.jks"),
                     "changeit".toCharArray());
 
             PrivateKey privateKey = (PrivateKey) keyStore.getKey("key1", "changeit".toCharArray());
@@ -56,7 +56,7 @@ public class JwtUtil {
             KeyStore keyStore = KeyStore.getInstance("jks");
 
             keyStore.load(new FileInputStream("C:/Users/subha/IdeaProjects/url_shortener" +
-                            "/user-service/src/main/resources/mykeystore.jks"),
+                            "/auth-service/src/main/resources/mykeystore.jks"),
                     "changeit".toCharArray());
 
             PrivateKey privateKey = (PrivateKey) keyStore.getKey("key1", "changeit".toCharArray());

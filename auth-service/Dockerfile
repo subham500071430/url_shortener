@@ -10,14 +10,14 @@ COPY pom.xml ./
 
 # Copy all module poms
 COPY eureka-server/pom.xml eureka-server/
-COPY user-service/pom.xml user-service/
+COPY auth-service/pom.xml auth-service/
 COPY url-shortener-service/pom.xml url-shortener-service/
 
 # Copy source code
-COPY user-service/src user-service/src
+COPY auth-service/src auth-service/src
 
 # Build the application
-RUN chmod +x mvnw && ./mvnw clean package -pl user-service -DskipTests
+RUN chmod +x mvnw && ./mvnw clean package -pl auth-service -DskipTests
 
 # Production stage
 FROM eclipse-temurin:17-jre-jammy
@@ -28,7 +28,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 # Copy the built JAR file
-COPY --from=build /app/user-service/target/user-service-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the port
 EXPOSE 8081

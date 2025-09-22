@@ -12,7 +12,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>user-service</artifactId>
+    <artifactId>auth-service</artifactId>
     <name>User Service</name>
     <description>Microservice to signup and login</description>
     <packaging>jar</packaging>

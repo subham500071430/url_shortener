@@ -30,12 +30,12 @@ COPY pom.xml ./
 
 # Copy all service poms
 COPY eureka-server/pom.xml eureka-server/
-COPY user-service/pom.xml user-service/
+COPY auth-service/pom.xml auth-service/
 COPY url-shortener-service/pom.xml url-shortener-service/
 
 # Copy source code
 COPY eureka-server/src eureka-server/src
-COPY user-service/src user-service/src
+COPY auth-service/src auth-service/src
 COPY url-shortener-service/src url-shortener-service/src
 
 # Build all services
@@ -53,7 +53,7 @@ RUN apt-get update && \
 
 # Copy built JAR files
 COPY --from=java-build /app/eureka-server/target/eureka-server-0.0.1-SNAPSHOT.jar ./eureka-server.jar
-COPY --from=java-build /app/user-service/target/user-service-0.0.1-SNAPSHOT.jar ./user-service.jar
+COPY --from=java-build /app/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar ./auth-service.jar
 COPY --from=java-build /app/url-shortener-service/target/url-shortener-service-0.0.1-SNAPSHOT.jar ./url-shortener-service.jar
 
 # Copy built frontend

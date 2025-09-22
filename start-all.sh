@@ -26,7 +26,7 @@ echo "Eureka Server is ready!"
 
 # Start User Service
 echo "Starting User Service..."
-java -jar user-service.jar \
+java -jar auth-service.jar \
     --spring.profiles.active=docker \
     --spring.datasource.url=jdbc:mysql://localhost:3306/user \
     --eureka.client.service-url.defaultZone=http://localhost:8761/eureka/ &

@@ -43,7 +43,7 @@ public class JwtUtil {
             PrivateKey privateKey = (PrivateKey) keyStore.getKey("key1", "changeit".toCharArray());
             Certificate certificate = keyStore.getCertificate("key1");
             PublicKey publicKey = certificate.getPublicKey();
-            PublicKeyDTO publicKeyDTO = new PublicKeyDTO("key1", Base64.getEncoder().encodeToString(publicKey.getEncoded()));
+            PublicKeyDTO publicKeyDTO = new PublicKeyDTO("1", Base64.getEncoder().encodeToString(publicKey.getEncoded()));
             PublicKeyStore store = modelMapper.map(publicKeyDTO, PublicKeyStore.class);
             repository.save(store);
 

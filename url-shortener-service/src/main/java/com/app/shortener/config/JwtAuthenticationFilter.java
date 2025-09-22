@@ -54,6 +54,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     unauthorized = true;
                 } else {
                     PublicKey publicKey = convertToPublicKey(keyResponse.getKey());
+
+                    // invalid public key or token -- to-do
                     Claims claims = Jwts.parser()
                             .setSigningKey(publicKey)
                             .parseClaimsJws(token)
@@ -86,7 +88,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private PublicKeyResponse fetchPublicKeyByKid(String keyId) {
-        String url = "http://localhost:8081/auth/public-key";
+        String url = "http://auth-service/auth/public-key";
 
         ResponseEntity<List<PublicKeyResponse>> responseEntity = restTemplate.exchange(
                 url,

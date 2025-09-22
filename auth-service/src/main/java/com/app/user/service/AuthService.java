@@ -71,7 +71,7 @@ public class AuthService {
 
     public String generateAccessToken(String userId, String role) {
 
-        return jwtUtil.generateToken(userId, role, 36000);
+        return jwtUtil.generateToken(userId, role, 360000);
     }
 
     public String generateRefreshToken(String userId, String role) {

@@ -1,5 +1,5 @@
 # Frontend Dockerfile - Multi-stage build for React + Vite
-FROM node:18-alpine AS build
+FROM node:18-bullseye as frontend-build
 
 WORKDIR /app
 

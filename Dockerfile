@@ -2,7 +2,7 @@
 # This builds all services in a single image (alternative to docker-compose)
 
 # Multi-stage build
-FROM node:18-alpine AS frontend-build
+FROM node:22-bullseye AS frontend-build
 
 WORKDIR /app/frontend
 
@@ -10,7 +10,7 @@ WORKDIR /app/frontend
 COPY frontend/package*.json ./
 
 # Install frontend dependencies
-RUN npm ci --only=production
+RUN npm ci
 
 # Copy frontend source
 COPY frontend/ ./

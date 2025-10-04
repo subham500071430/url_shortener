@@ -39,6 +39,13 @@ services:
     ports:
       - "5007:5007"
 
+  api-gateway:
+    environment:
+      - JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:5008
+        - SPRING_PROFILES_ACTIVE=dev
+    ports:
+          - "5008:5008"
+
   # Frontend with development server
   frontend:
     build:

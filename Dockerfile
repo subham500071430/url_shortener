@@ -32,11 +32,13 @@ COPY pom.xml ./
 COPY eureka-server/pom.xml eureka-server/
 COPY auth-service/pom.xml auth-service/
 COPY url-shortener-service/pom.xml url-shortener-service/
+COPY api-gateway/pom.xml api-gateway
 
 # Copy source code
 COPY eureka-server/src eureka-server/src
 COPY auth-service/src auth-service/src
 COPY url-shortener-service/src url-shortener-service/src
+COPY api-gateway/src api-gateway/src
 
 # Build all services
 RUN chmod +x mvnw && ./mvnw clean package -DskipTests
@@ -55,6 +57,7 @@ RUN apt-get update && \
 COPY --from=java-build /app/eureka-server/target/eureka-server-0.0.1-SNAPSHOT.jar ./eureka-server.jar
 COPY --from=java-build /app/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar ./auth-service.jar
 COPY --from=java-build /app/url-shortener-service/target/url-shortener-service-0.0.1-SNAPSHOT.jar ./url-shortener-service.jar
+COPY --from=java-build /app/api-gateway/target/api-gateway-0.0.1-SNAPSHOT.jar ./api-gateway.jar
 
 # Copy built frontend
 COPY --from=frontend-build /app/frontend/dist /var/www/html
@@ -67,7 +70,7 @@ COPY start-all.sh ./
 RUN chmod +x start-all.sh
 
 # Expose all necessary ports
-EXPOSE 80 8080 8081 8761
+EXPOSE 80 8080 8081 8083 8761
 
 # Health check for the main application
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \

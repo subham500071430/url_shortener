@@ -17,7 +17,7 @@ export const urlShortenerApi = {
    * Shorten a long URL
    */
   shortenUrl: async (request: UrlShortenRequest): Promise<UrlShortenResponse> => {
-    const response = await api.post<UrlShortenResponse>('/bit.ly/shorten/url', request);
+    const response = await api.post<UrlShortenResponse>('/shorten/url', request);
     return response.data;
   },
 

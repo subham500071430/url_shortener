@@ -12,7 +12,7 @@ services:
       - mysql_data:/var/lib/mysql
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       timeout: 20s
       retries: 10
     networks:
@@ -24,7 +24,7 @@ services:
     expose:
       - "6379"
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       timeout: 20s
       retries: 10
     networks:
@@ -34,7 +34,7 @@ services:
     image: redis:7-alpine
     container_name: redis-auth-cache
     expose:
-        - "6379"
+      - "6379"
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       timeout: 20s
@@ -51,7 +51,8 @@ services:
     expose:
       - "8761"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://eureka-server/"]
+      test: [ "CMD", "curl", "-f", "http://eureka-server:8761/actuator/health
+" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -78,7 +79,7 @@ services:
       eureka-server:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://auth-service:8081/"]
+      test: [ "CMD", "curl", "-f", "http://auth-service:8081/" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -108,7 +109,7 @@ services:
       eureka-server:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://url-shortener-service:8080/"]
+      test: [ "CMD", "curl", "-f", "http://url-shortener-service:8080/" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -119,8 +120,8 @@ services:
   #gateway
   api-gateway:
     build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: api-gateway/Dockerfile
     container_name: api-gateway
     ports:
       - "8083:8083"
@@ -153,7 +154,7 @@ services:
       - url-shortener-service
       - auth-service
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://frontend:80/"]
+      test: [ "CMD", "curl", "-f", "http://frontend:80/" ]
       interval: 30s
       timeout: 3s
       retries: 3

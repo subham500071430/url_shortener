@@ -12,7 +12,7 @@ COPY pom.xml ./
 COPY eureka-server/pom.xml eureka-server/
 COPY auth-service/pom.xml auth-service/
 COPY url-shortener-service/pom.xml url-shortener-service/
-COPY api-gateway/pom.xml api-gateway
+COPY api-gateway/pom.xml api-gateway/
 
 # Copy source code
 COPY url-shortener-service/src url-shortener-service/src

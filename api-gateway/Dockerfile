@@ -12,7 +12,7 @@ COPY pom.xml ./
 COPY eureka-server/pom.xml eureka-server/
 COPY auth-service/pom.xml auth-service/
 COPY url-shortener-service/pom.xml url-shortener-service/
-COPY api-gateway/pom.xml api-gateway
+COPY api-gateway/pom.xml api-gateway/
 
 # Copy source code
 COPY api-gateway/src api-gateway/src
@@ -29,7 +29,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 # Copy the built JAR file
-COPY --from=build /app/auth-service/target/api-gateway-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/api-gateway/target/api-gateway-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the port
 EXPOSE 8083

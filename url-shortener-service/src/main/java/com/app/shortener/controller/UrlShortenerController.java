@@ -15,15 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
+@RequestMapping("/api/v1/urls")
 public class UrlShortenerController {
 
     @Autowired
-    UrlShortenerService urlShortenerService;
+    private UrlShortenerService urlShortenerService;
 
-
-    @PostMapping(path = "/shorten/url")
-    ResponseEntity<?> shortenURL(@Valid @RequestBody UrlShortenRequest request) {
-        UrlShortenResponse urlShortenResponse = urlShortenerService.shortenURL(request);
-        return ResponseEntity.ok(urlShortenResponse);
+    @PostMapping("/shorten")
+    public ResponseEntity<?> shortenURL(@RequestBody @Valid UrlShortenRequest request) {
+        UrlShortenResponse response = urlShortenerService.shortenURL(request);
+        
+        if (response == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        
+        return ResponseEntity.ok(response);
     }
 }
